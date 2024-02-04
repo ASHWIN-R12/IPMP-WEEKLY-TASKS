@@ -1,0 +1,32 @@
+class Solution{
+public:
+    static bool fun( const pair< pair<int,int> , int>&a , const pair<pair<int,int> , int>& b)
+    {
+        if(a.first.second<b.first.second)
+            return true;
+        if(a.first.second==b.first.second)
+            return a.second<b.second;
+        return false;
+    }
+    vector<int> maxMeetings(int n,vector<int> &s,vector<int> &f){
+        vector<pair<pair<int,int>,int>> v;
+        vector<int> ans;
+        for(int i=0;i<n;i++)
+        {
+            v.push_back({{s[i],f[i]},i+1});
+        }
+        sort(v.begin(),v.end(),fun);
+        int limit=v[0].first.second;
+        ans.push_back(v[0].second);
+        for(int i=1;i<n;i++)
+        {
+            if(v[i].first.first>limit)
+            {   
+                limit=v[i].first.second;
+                ans.push_back(v[i].second);
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
