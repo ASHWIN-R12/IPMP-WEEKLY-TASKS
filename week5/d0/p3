@@ -1,0 +1,58 @@
+class Solution{
+  public:
+    
+    long long merge(long long arr[],long long low,long long mid,long long high)
+    {
+        vector<long long> ans;
+        long long i=low;
+        long long j=mid+1;
+        long long count=0;
+        while(i<=mid && j<=high)
+        {
+            if(arr[i]<=arr[j])
+            {
+                ans.push_back(arr[i]);
+                i++;
+            }
+            else
+            {
+                ans.push_back(arr[j]);
+                j++;
+                count +=(mid-i+1);
+            }
+        }
+        while(i<=mid)
+        {
+            ans.push_back(arr[i]);
+            i++;
+        }
+        while(j<=high)
+        {
+            ans.push_back(arr[j]);
+            j++;
+        }
+        for(int i=low;i<=high;i++)
+        {
+            arr[i]=ans[i-low];
+        }
+        return count;
+    }
+    long long merge_sort(long long arr[],long long low,long long high)
+    {   
+        long long count=0;
+        if(low>=high)
+            return count;
+        long long mid=low+(high-low)/2;
+        count += merge_sort(arr,low,mid);
+        count += merge_sort(arr,mid+1,high);
+        count += merge(arr,low,mid,high);
+        return count;
+        
+        
+    }
+    long long int inversionCount(long long arr[], long long n)
+    {
+        return merge_sort(arr,0,n-1);
+    }
+    
+};
