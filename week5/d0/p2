@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int partition(vector<int>& nums,int low,int high)
+    {
+        int pivot=nums[low];
+        int i=low;
+        int j=high;
+        while(i<j)
+        {
+            while(i<=high-1 && nums[i]<=pivot)
+            {
+                i++;
+            }
+            while(j>=low && nums[j]>pivot)
+            {
+                j--;
+            }
+            if(i<j)
+            {
+                swap(nums[i],nums[j]);
+            }
+        }
+        swap(nums[low],nums[j]);
+        return j;
+    }
+    int quick_select(vector<int>& nums,int low,int high,int k)
+    {
+            if(low==high)
+                return low;
+            int part=partition(nums,low,high);
+            if(part==k)
+                return part;
+            else if(part>k)
+                return quick_select(nums,low,part-1,k);
+            else
+                return quick_select(nums,part+1,high,k);
+        
+    }
+    int findKthLargest(vector<int>& nums, int k) {
+        int n= nums.size();
+        k=n-k;
+        int low=0;
+        int high=n-1;
+        
+        int index=quick_select(nums,low,high,k);
+        return nums[index];
+        
+
+        
+    }
+};
