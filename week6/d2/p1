@@ -1,0 +1,27 @@
+class Solution{
+  public:
+    vector <int> countDistinct (int arr[], int n, int k)
+    {
+        vector<int> ans;
+        unordered_map<int,int> mpp;
+        for(int i=0;i<k;i++)
+        {
+            mpp[arr[i]]++;
+        }
+        int i=0;
+        int j=k-1;
+        while(j<=n-1)
+        {
+            ans.push_back(mpp.size());
+            if(mpp[arr[i]]==1)
+                mpp.erase(arr[i]);
+            else
+                mpp[arr[i]]--;
+            i++;
+            j++;
+            if(j<=n)
+                mpp[arr[j]]++;
+        }
+        return ans;
+    }
+};
