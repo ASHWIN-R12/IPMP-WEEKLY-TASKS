@@ -1,0 +1,21 @@
+class Solution{
+    public:
+    vector<int> countFreq(int a[], int n) 
+    {   
+        vector<int> ans;
+        sort(a,a+n);
+        int count=1;
+        for(int i=1;i<n;i++)
+        {
+            if(a[i]==a[i-1])
+                count++;
+            else
+            {
+                ans.push_back(count);
+                count++;
+            }
+        }
+        ans.push_back(count);                             
+        return ans;
+    } 
+};
