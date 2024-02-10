@@ -1,0 +1,29 @@
+class Solution
+{
+    public:
+    //Function is to check whether two strings are anagram of each other or not.
+    bool isAnagram(string a, string b){
+        
+        map<int,int>mpp;
+        for(auto e : a)
+        {
+            mpp[e]++;
+        }
+        for(auto f : b)
+        {
+            if(mpp[f]==1)
+            {
+                mpp.erase(f);
+            }
+            else if(mpp[f]>1)
+            {
+                mpp[f]--;
+            }
+        }
+        if(mpp.empty())
+            return true;
+        else
+            return false;
+    }
+
+};
