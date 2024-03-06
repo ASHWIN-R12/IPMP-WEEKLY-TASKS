@@ -1,0 +1,35 @@
+d=head->next;
+            Node* back=head->prev;
+            head->prev=NULL;
+            back->next=NULL;
+            delete back;
+            return head;
+        }
+      Node* temp=head;
+      int count=1;
+      while(temp!=NULL)
+        {
+            if(count==x-1)
+                break;
+            temp=temp->next;
+            count++;
+        }
+        if(temp->next->next==NULL)
+        {
+            Node* front=temp->next;
+            front->prev=NULL;
+            temp->next=NULL;
+            delete front;
+            return head;
+        }
+        Node* front=temp->next->next;;
+        Node* del=temp->next;
+        temp->next=front;
+        front->prev=temp;
+        del->next=NULL;
+        del->prev=NULL;
+        delete del;
+        return head;
+    
+    }
+};
