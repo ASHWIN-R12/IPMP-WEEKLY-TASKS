@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+int precedence(char a)
+{
+	if(a=='^')
+		return 3;
+	if(a=='*'||a=='/')
+		return 2;
+	if(a=='+'||a=='-')
+		return 1;
+	return 0;
+}
+
+string infixToPostfix(string s){
+	stack<char> st;
+	string postfix="";
+	for(int i=0;i<s.length();i++)
+	{
+		switch(s[i])
+		{
+			case '(':
+				st.push(s[i]);
+				break;
+			case ')':
+				while(st.top()!='(')
+				{
+					postfix += st.top();
+					st.pop();
+				}
+				st.pop();
+				break;
+			case '^':
+				while (!st.empty() && precedence(st.top()) >=precedence(s[i])) 
+				{
+					postfix+=st.top();
+					st.pop();
+				}		
+				st.push(s[i]);
+				break;
+            case '/' :
+				while (!st.empty() && precedence(st.top()) >=precedence(s[i])) 
+				{
+					postfix+=st.top();
+					st.pop();
+				}		
+				st.push(s[i]);
+				break;
+			case '*' :
+				while (!st.empty() && precedence(st.top()) >=precedence(s[i])) 
+				{
+					postfix+=st.top();
+					st.pop();
+				}		
+				st.push(s[i]);
+				break;
+			case '+' : 
+				while (!st.empty() && precedence(st.top()) >=precedence(s[i])) 
+				{
+					postfix+=st.top();
+					st.pop();
+				}		
+				st.push(s[i]);
+				break;
+			case '-': 
+				while (!st.empty() && precedence(st.top()) >=precedence(s[i])) 
+				{
+					postfix+=st.top();
+					st.pop();
+				}		
+				st.push(s[i]);
+				break;
+			default:
+				postfix += s[i];
+				
+		}
+	}
+	while(!st.empty())
+	{
+		postfix += st.top();
+		st.pop();
+	}
+	return postfix;
+
+}
