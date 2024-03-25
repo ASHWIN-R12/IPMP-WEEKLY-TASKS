@@ -1,0 +1,46 @@
+/********************************************************************
+
+    Following is the Binary Tree node structure:
+
+    class BinaryTreeNode {
+        public :
+        int data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+    
+********************************************************************/
+#include<bits/stdc++.h>
+using namespace std;
+void helper(BinaryTreeNode<int>* root,vector<string>& ans,string temp)
+{
+    if(root==NULL)
+        return;
+    temp=temp+to_string(root->data)+" ";
+   
+    if (!root->left && !root->right) {
+        ans.push_back(temp);
+    }
+     else{
+          helper(root->left, ans,temp);
+          helper(root->right, ans,temp);
+     }
+    
+
+}
+vector <string> allRootToLeaf(BinaryTreeNode<int> * root) {
+   if(root==NULL)
+        return {};
+    vector<string> ans;
+    string b="";
+    helper(root,ans,b);
+    return ans;
+
+
+}
