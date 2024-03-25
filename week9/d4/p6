@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*,TreeNode*> parent_track;
+        queue<TreeNode*> p;
+        p.push(root);
+        while(!p.empty())
+        {
+            TreeNode* frontnode=p.front();
+            p.pop();
+            if(frontnode->left)
+            {
+                parent_track[frontnode->left]=frontnode;
+                p.push(frontnode->left);
+            }
+            if(frontnode->right)
+            {
+                parent_track[frontnode->right]=frontnode;
+                p.push(frontnode->right);
+            }
+        }
+        unordered_map<TreeNode*,bool> visited;
+        int distance=0;
+        p.push(target);
+        visited[target]=true;
+        while(!p.empty())
+        {
+            if(distance==k)
+                break;
+            distance++;
+            int size=p.size();
+            for(int i=0;i<size;i++)
+            {
+                TreeNode* frontnode=p.front();
+                p.pop();
+                if(frontnode->left && !visited[frontnode->left])
+                {
+                    visited[frontnode->left]=true;
+                    p.push(frontnode->left);
+                }
+                if(frontnode->right && !visited[frontnode->right])
+                {
+                    visited[frontnode->right]=true;
+                    p.push(frontnode->right);
+                }
+                if(parent_track[frontnode] && !visited[parent_track[frontnode]])
+                {
+                    visited[parent_track[frontnode]]=true;
+                    p.push(parent_track[frontnode]);
+                }
+            }
+            
+        }
+        vector<int> ans;
+            while(!p.empty())
+            {
+                TreeNode* frontnode=p.front();
+                p.pop();
+                ans.push_back(frontnode->val);
+            }
+            return ans;
+
+    }
+};
