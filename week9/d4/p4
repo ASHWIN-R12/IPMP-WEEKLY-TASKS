@@ -1,0 +1,75 @@
+/************************************************************
+
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+        public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) 
+        {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#include<bits/stdc++.h>
+int timeToBurnTree(BinaryTreeNode<int>* root, int start)
+{
+    unordered_map<BinaryTreeNode<int>*,BinaryTreeNode<int>*> parent_track;
+        queue<BinaryTreeNode<int>*> p;
+        p.push(root);
+        BinaryTreeNode<int>* target=NULL;
+        while(!p.empty())
+        {
+            BinaryTreeNode<int>* frontnode=p.front();
+            p.pop();
+            if(frontnode->data==start)
+                 target=frontnode;
+            if(frontnode->left)
+            {
+                parent_track[frontnode->left]=frontnode;
+                p.push(frontnode->left);
+            }
+            if(frontnode->right)
+            {
+                parent_track[frontnode->right]=frontnode;
+                p.push(frontnode->right);
+            }
+        }
+        unordered_map<BinaryTreeNode<int>*,bool> visited;
+        int ans=0;
+        p.push(target);
+        visited[target]=true;
+        while(!p.empty())
+        {
+            ans++;
+            int size=p.size();
+            for(int i=0;i<size && !p.empty();i++)
+            {
+                BinaryTreeNode<int>* frontnode=p.front();
+                p.pop();
+                if(frontnode->left && !visited[frontnode->left])
+                {
+                    visited[frontnode->left]=true;
+                    p.push(frontnode->left);
+                }
+                if(frontnode->right && !visited[frontnode->right])
+                {
+                    visited[frontnode->right]=true;
+                    p.push(frontnode->right);
+                }
+                if (parent_track[frontnode] &&
+                    !visited[parent_track[frontnode]]) {
+                    visited[parent_track[frontnode]] = true;
+                    p.push(parent_track[frontnode]);
+                }
+            }
+        }
+        return ans - 1;
+}
